@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import Alugar from './Pages/Home/Alugar'
 import Automoveis from './Pages/Home/Automoveis'
 import Suporte from './Pages/Home/Suporte'
+import  './mock';
+
 function App() {
 
   return (

@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Button  from '@material-ui/core/Button';
 import Link  from '@material-ui/core/Link';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../utils/axios';
 
 
 
@@ -48,14 +48,13 @@ const useStyle = makeStyles((theme) => ({
   }))
 
 function Signin(){
+
     const classes = useStyle();
     const navigate = useNavigate();
 
-    function handleSingIn() {
-        // chamada a api
-        // se o retorno estiver ok
-        // direciona para a home, se não
-        // exibe msg para o usuario
+    async function handleSingIn(){
+        const response = await axios.post('/api/home/login')
+        console.log(response)
     }
 
     return (
@@ -112,8 +111,8 @@ function Signin(){
                             variant="contained"
                             color="primary"
                             fullWidth
-                            className={classes.button}>
-                            {/* onClick={}> */}
+                            className={classes.button}
+                            onClick={handleSingIn}>
                             Entrar
                         </Button>
 
