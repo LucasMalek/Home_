@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,9 +10,8 @@ import TextField from '@material-ui/core/TextField';
 import Button  from '@material-ui/core/Button';
 import Link  from '@material-ui/core/Link';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../../utils/axios';
-
-
+import authService from '../../../services/authServices';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 
 const useStyle = makeStyles((theme) => ({
@@ -51,10 +50,22 @@ function Signin(){
 
     const classes = useStyle();
     const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+
 
     async function handleSingIn(){
-        const response = await axios.post('/api/home/login')
-        console.log(response)
+        
+        try{
+            
+            await authService.signIn(email, password);
+            navigate('/')
+
+        }catch (error) {
+            setErrorMessage(error.response.data.message);
+        }
     }
 
     return (
@@ -95,6 +106,8 @@ function Signin(){
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
                         />
                         <TextField
                             variant="outlined"
@@ -106,6 +119,9 @@ function Signin(){
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+
                         />
                         <Button 
                             variant="contained"
@@ -115,6 +131,12 @@ function Signin(){
                             onClick={handleSingIn}>
                             Entrar
                         </Button>
+                        {
+                            errorMessage && 
+                            <FormHelperText error>
+                                {errorMessage}
+                            </FormHelperText>
+                        }
 
                         <Grid container className={classes.links}>
 
