@@ -7,6 +7,7 @@ import { AlignCenter, AlignLeft, Bell, Italic } from 'react-feather'
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+
 const useStyles = makeStyles({
     appBar: {
         boxShadow: 'none',
