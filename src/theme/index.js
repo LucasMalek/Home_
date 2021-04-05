@@ -3,8 +3,8 @@ import palette from './palette';
 import Typography from './Typography';
 
 const theme = createMuiTheme({
-palette,
-Typography,
+    palette,
+    Typography,
 });
 
 
