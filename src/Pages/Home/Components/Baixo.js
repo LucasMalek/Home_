@@ -31,7 +31,7 @@ function Baixo() {
     const classes = useStyles();
 
     return <div className={classes.root}>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <Typography variant="h3">Depoimento de clientes</Typography>
     </ThemeProvider>
     </div>;
