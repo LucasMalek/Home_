@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
     },
     grow: {
-        flexGrow: 0.5,
+        flexGrow: 1,
     },
     useSection: {
         display: 'flex',
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
     busca: {
         backgroundColor: 'white',
         border: 'solid 1px',
-        width: 1120,
+        width: '100%',
         height: 30,
         borderRadius: '15px',
 
@@ -71,13 +71,13 @@ function Header() {
                         <SearchIcon></SearchIcon>
                     </div>
                 </div>
-                <div className={classes.grow}></div>
+                {/* <div className={classes.grow}></div>
                 <div className={classes.useSection}>
                     <SvgIcon className={classes.bell}>
                         <Bell ></Bell>
                     </SvgIcon>
                     <Avatar alt="L" src="/" />
-                </div>
+                </div> */}
             </Toolbar>
         </AppBar>
     )
