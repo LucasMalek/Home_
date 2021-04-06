@@ -17,6 +17,7 @@ import Collapse from '@material-ui/core/Collapse';
 import clsx from 'clsx';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Box from '@material-ui/core/Box';
 
 
 
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         boxShadow: 'none',
-        // position: 'static',
+        position: 'static',
         zIndex: theme.zIndex.drawer + 1,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
@@ -65,14 +66,15 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
+        //necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
 
     content: {
+        display: 'flex',
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(3,3),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -80,10 +82,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: -240,
     },
     contentShift: {
-
         transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen,
         }),
         marginLeft: 0,
     },
@@ -150,54 +151,69 @@ function Catalogo() {
 
                 </Toolbar>
             </AppBar>
+            
+            <Box display='flex'>
+                <Drawer
+                    className={classes.drawer}
+                    variant="persistent"
+                    anchor="left"
+                    open={openOptions}
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}>
 
-            <Drawer
-                className={classes.drawer}
-                variant="persistent"
-                anchor="left"
-                open={openOptions}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}>
+                    <div className={classes.drawerHeader}>
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        </IconButton>
+                    </div>
+                    <Toolbar />
 
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </div>
-                <Toolbar />
+                    <div className={classes.drawerContainer}>
+                        <ListItem button onClick={handleClick}>
+                            <ListItemIcon>
+                                <DirectionsCarIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Modelos" />
+                            {open ? <ExpandLess /> : <ExpandMore />}
+                        </ListItem>
 
-                <div className={classes.drawerContainer}>
-                    <ListItem button onClick={handleClick}>
-                        <ListItemIcon>
-                            <DirectionsCarIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Modelos" />
-                        {open ? <ExpandLess /> : <ExpandMore />}
-                    </ListItem>
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding>
+                                <ListItem button className={classes.nested}>
 
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItem button className={classes.nested}>
+                                    {['CrossOver', 'Esportivo', 'Hatch e Hatchback', 'Jipe', 'Picape',
+                                        'Sedan', 'SUV', 'Van e Minivan'].map((text, index) => (
+                                            <ListItem button key={text}>
+                                                <ListItemText primary={text} />
+                                            </ListItem>
+                                        ))}
 
-                                {['CrossOver', 'Esportivo', 'Hatch e Hatchback', 'Jipe', 'Picape',
-                                 'Sedan', 'SUV', 'Van e Minivan' ].map((text, index) => (
-                                    <ListItem button key={text}>
-                                        <ListItemText primary={text} />
-                                    </ListItem>
-                                ))}
+                                </ListItem>
+                            </List>
+                        </Collapse>
 
-                            </ListItem>
-                        </List>
-                    </Collapse>
+                    </div>
+                </Drawer>
+                <Box>
+                    
+                    <main
+                        className={clsx(classes.content, {
+                            [classes.contentShift]: openOptions,
+                        })}
+                    >
 
-                </div>
-            </Drawer>
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: openOptions,
-                })}>
-            </main>
+                        <div className={classes.drawerHeader} />
+                        <Typography
+                            variant='h5'
+                            color='textPrimary'
+                            style={{ fontHeight: 800 }}
+                        >
+                            Catálogo
+                        </Typography>
+                    </main>
+                </Box>
+            </Box>
         </div>
     );
 }
