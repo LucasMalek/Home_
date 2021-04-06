@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         ...theme.typography.button,
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(1),
-        width: 1195,
+        width: '100%',
         paddingLeft: 700,
         backgroundImage: 'url(/images/grey.jpg)',
         backgroundPosition: 'center',

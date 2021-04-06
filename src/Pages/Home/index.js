@@ -59,18 +59,16 @@ const useStyle = makeStyles({
   div_3: {
     width: '100%',
     minHeight: 500,
-    backgroundColor: 'grey',
-    opacity: '50%',
+    backgroundColor: 'white',
     backgroundImage: 'url(/images/back4.png)',
     backgroundPosition: 'center',
-
   },
   block: {
     backgroundColor: "white",
     width: "100%",
     marginRight: 30,
     minHeight: 300,
-    borderRadius: '25px'
+    borderRadius: '25px',
   },
   typo: {
 
@@ -97,10 +95,9 @@ function Home() {
       </main>
 
       <div className={classe.div_3}>
+        
         <Baixo />
         <Container className={classe.container}>
-
-
           <Card className={classe.block}>
             <CardHeader
               avatar={<Avatar src='/images/avatars/mulher1.jpg' style={{ width: '56px', height: '56px', opacity: '100%' }} />}

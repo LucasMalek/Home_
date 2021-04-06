@@ -9,6 +9,7 @@ import { SignalWifi1BarLock } from '@material-ui/icons';
 
 
 const useStyles = makeStyles((theme) => ({
+  
   root: {
     paddingBottom: theme.spacing(2),
   },
@@ -84,22 +85,13 @@ function Feed() {
 
     <Carousel arrows={false}>
       <div className={classes.div}>
-
-
         <img src="./images/slide1.jpg" className={classes.img} />
       </div>
+
       <div className={classes.div}>
-
-
         <img src="./images/slide2.jpg" className={classes.img} />
       </div>
-
     </Carousel>
-
-
-
-
-
   )
 }
 
