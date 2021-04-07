@@ -18,7 +18,7 @@ import clsx from 'clsx';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Box from '@material-ui/core/Box';
-
+import CenteredGrid from '../Components/Grid';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -72,9 +72,8 @@ const useStyles = makeStyles((theme) => ({
     },
 
     content: {
-        display: 'flex',
         flexGrow: 1,
-        padding: theme.spacing(3,3),
+        padding: theme.spacing(3,5),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -195,7 +194,7 @@ function Catalogo() {
 
                     </div>
                 </Drawer>
-                <Box>
+                <Box px={2}>
                     
                     <main
                         className={clsx(classes.content, {
@@ -203,14 +202,17 @@ function Catalogo() {
                         })}
                     >
 
-                        <div className={classes.drawerHeader} />
+                        {/* <div className={classes.drawerHeader} /> */}
                         <Typography
                             variant='h5'
                             color='textPrimary'
-                            style={{ fontHeight: 800 }}
+                            style={{ fontHeight: 600 }}
                         >
                             Catálogo
                         </Typography>
+
+                        <CenteredGrid />
+
                     </main>
                 </Box>
             </Box>
