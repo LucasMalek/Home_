@@ -59,9 +59,9 @@ function Footer() {
                             <li>Telefone: (33) 98890-8372</li>
                         </ul>
                     </Box>
-                    
+
                     <Box className={classes.col3}>
-                        <Button variant="outlined" color="secondary" className={classes.button}>Admin Login</Button>
+                        <Button variant="outlined" color="primary" className={classes.button}>Admin Login</Button>
                     </Box>
 
                 </Box>

@@ -35,7 +35,6 @@ function Navbar() {
     const classes = useStyles();
     return (
         <Paper className={classes.paper} >
-            <Button variant="outlined" color="secondary" className={classes.button}>Registrar</Button>
             <ListSubheader component="div" id="Informaçõea">
                 {
                     tags.map((item) => (

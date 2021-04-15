@@ -14,13 +14,8 @@ const useStyle = makeStyles((theme) => ({
 
     root: {
         height: '100vh',
-        backgroundColor: 'White'
-    },
-
-    image: {
-        backgroundImage: 'url(/images/back4.png)',
-        backgroundSize: 'Cover',
-        backGroungRepeat: 'none',
+        backgroundColor: 'White',
+        justifyContent: 'center'
     },
 
     avatar: {
@@ -28,18 +23,24 @@ const useStyle = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
     },
 
+    img: {
+        height: 100,
+        width: 300,
+    },
+
+    container: {
+        marginTop: 75,
+        marginLeft: 150,
+    },
+
     button: {
         marginTop: theme.spacing(1),
     },
 
     form: {
-        margin: theme.spacing(0, 4, 0, 4)
+        margin: theme.spacing(4, 4, 0, 4)
     },
 
-    links: {
-        justifyContent: 'space-between'
-    },
-    
   }))
 
 function Signin(){
@@ -49,29 +50,13 @@ function Signin(){
     return (
 
         <Grid container className={classes.root}>
-            <Grid 
-                item
-                container 
-                direction="column"
-                justify="center"
-                alignItems="center"
-                md={7}
-                className={classes.image}>
-                <Typography style={{color: "white", fontSize: 35, lineHeight: '45px'}}>
-                     <strong>Simplificando sua viagem</strong>
-                 </Typography>
-                 <Typography variant="body2" style={{color: 'rgb(255, 255, 255, 0.7', marginTop: 30, fontSize: 15, lineHeight: '30px'}}>
-                     Venha fazer parte dessa grande família! 
-                 </Typography>
-            </Grid>
-
-            <Grid item md={5}>
+            <Grid>
                 <Box display="flex" flexDirection="column" alignItems='center' mt={8}>
                     <Avatar className={classes.avatar}>
                         <LockOutlineIcon />
                     </Avatar>
                     <Typography variant='h6'>
-                        Acesso
+                        Acesso Restrito para Funcionários
                     </Typography>
                     <form className={classes.form}>
                         <TextField 
@@ -103,21 +88,13 @@ function Signin(){
                             color="primary"
                             fullWidth
                             className={classes.button}>
-                            {/* onClick={handleSingIn} */}
                             Entrar
                         </Button>
-    
 
-                        <Grid container className={classes.links}>
-
-                            <Grid item>
-                                <Link>Esqueceu sua senha?</Link>
-                            </Grid>
-                            <Grid item>
-                                <Link>Não tem uma conta? Registre-se</Link>
-                            </Grid>
-                        </Grid>
                     </form>
+                </Box>
+                <Box className={classes.container}>
+                    <img src="./images/locar.jpg" className={classes.img}/>
                 </Box>
             </Grid>
         </Grid>
