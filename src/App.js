@@ -16,7 +16,6 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/sign-in' element={<Signin />} />
           <Route path='/Catalogo' element={<Catalogo />} />
-          <Route path='/Alugar' element={<Suporte />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

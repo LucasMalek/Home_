@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         marginRight: theme.spacing(2),
-        height: '380px',
+        height: '240px',
         boxShadow: 'none',
         marginTop: 20,
     }
 }));
 
 const tags = [
-    { id: 1, name: 'Logar' },
+    { id: 1, name: 'Veículos' },
     { id: 2, name: 'Alugar' },
     { id: 3, name: 'Automóveis' },
     { id: 4, name: 'Suporte' },
@@ -36,7 +36,7 @@ function Navbar() {
     return (
         <Paper className={classes.paper} >
             <Button variant="outlined" color="secondary" className={classes.button}>Registrar</Button>
-            <ListSubheader component="div" id="Tags em alta">
+            <ListSubheader component="div" id="Informaçõea">
                 {
                     tags.map((item) => (
                         <ListItem dense button key={`item-${item.id}-${item.name}`}>

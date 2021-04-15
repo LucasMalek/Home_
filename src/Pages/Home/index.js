@@ -4,6 +4,7 @@ import Header from './Components/Header';
 import { makeStyles } from '@material-ui/core/styles';
 import Feed from './Components/Feed';
 import Navbar from './Components/Navbar';
+import Footer from './Components/Footer'
 import { Box, Card, Container } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -32,10 +33,7 @@ const useStyle = makeStyles({
   toolbar: {
     minHeight: 65,
   },
-  image: {
-
-
-  },
+  
   div_1: {
     width: '100%',
     height: '450px',
@@ -65,9 +63,7 @@ const useStyle = makeStyles({
     minHeight: 300,
     borderRadius: '25px',
   },
-  typo: {
 
-  }
 })
 function Home() {
 
@@ -160,6 +156,7 @@ function Home() {
           </div>
         </Container>
       </div>
+      <Footer/>
     </div>
   );
 
