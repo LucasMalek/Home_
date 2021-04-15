@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3,5),
+        padding: theme.spacing(3, 5),
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -82,8 +82,8 @@ const useStyles = makeStyles((theme) => ({
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
         }),
         marginLeft: 0,
     },
@@ -148,7 +148,7 @@ function Catalogo() {
                     <div className={classes.grow} />
                 </Toolbar>
             </AppBar>
-            
+
             <Box display='flex'>
                 <Drawer
                     className={classes.drawer}
@@ -185,7 +185,7 @@ function Catalogo() {
                                                 <ListItemText primary={text} />
                                             </ListItem>
                                         ))}
-
+                                        
                                 </ListItem>
                             </List>
                         </Collapse>
@@ -193,7 +193,7 @@ function Catalogo() {
                     </div>
                 </Drawer>
                 <Box px={2}>
-                    
+
                     <main
                         className={clsx(classes.content, {
                             [classes.contentShift]: openOptions,

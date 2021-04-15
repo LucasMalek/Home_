@@ -4,6 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import { Button, ListItem, ListItemText } from '@material-ui/core';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { Autorenew } from '@material-ui/icons';
+import { Link } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -18,10 +20,15 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         marginRight: theme.spacing(2),
-        height: '240px',
+        height: '220px',
         boxShadow: 'none',
         marginTop: 20,
-    }
+    },
+    list: {
+        paddingLeft: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'column',
+    },
 }));
 
 const tags = [
@@ -35,15 +42,24 @@ function Navbar() {
     const classes = useStyles();
     return (
         <Paper className={classes.paper} >
-            <ListSubheader component="div" id="Informaçõea">
-                {
-                    tags.map((item) => (
-                        <ListItem dense button key={`item-${item.id}-${item.name}`}>
-                            <ListItemText primary={`${item.name}`}></ListItemText>
-                        </ListItem>
+            <ListSubheader component="div" id="Informações">
+                <ListItem button className={classes.list}>
 
-                    ))
-                }
+                    <ListItem button component={Link} to="/Catalogo" key={1}>
+                        <ListItemText primary={"Catálogo"} />
+                    </ListItem>
+                    <ListItem button key={2}>
+                        <ListItemText primary={"Alugar"} />
+                    </ListItem>
+                    <ListItem button key={3}>
+                        <ListItemText primary={"Automóveis"} />
+                    </ListItem>
+                    <ListItem button key={4}>
+                        <ListItemText primary={"Suporte"} />
+                    </ListItem>
+                    
+
+                </ListItem>
             </ListSubheader>
         </Paper>
     )

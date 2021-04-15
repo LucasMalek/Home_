@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 
 const useStyle = makeStyles({
@@ -61,7 +62,7 @@ function Footer() {
                     </Box>
 
                     <Box className={classes.col3}>
-                        <Button variant="outlined" color="primary" className={classes.button}>Admin Login</Button>
+                        <Link to="/sign-in" style={{textDecoration: 'none'}}><Button color='primary' className={classes.button}> Admim Login</Button></Link>
                     </Box>
 
                 </Box>

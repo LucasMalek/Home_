@@ -15,26 +15,28 @@ theme.typography.h3 = {
 };
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        ...theme.typography.button,
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(1),
-        width: '100%',
-        paddingLeft: 700,
-        backgroundImage: 'url(/images/grey.jpg)',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-      },
+  root: {
+    ...theme.typography.button,
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(1),
+    width: '100%',
+    paddingLeft: 700,
+    backgroundImage: 'url(/images/grey.jpg)',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+  },
 }));
 
 function Baixo() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return <div className={classes.root}>
-    <ThemeProvider theme={theme}>
-      <Typography variant="h3">Depoimento de clientes</Typography>
-    </ThemeProvider>
-    </div>;
+  return (
+    <div className={classes.root}>
+      <ThemeProvider theme={theme}>
+        <Typography variant="h3">Depoimento de clientes</Typography>
+      </ThemeProvider>
+    </div>
+    );
 }
 
 export default Baixo
