@@ -8,9 +8,7 @@ import LockOutlineIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
 import Button  from '@material-ui/core/Button';
 import Link  from '@material-ui/core/Link';
-import { useNavigate } from 'react-router-dom';
-import authService from '../../../services/authServices';
-import { FormHelperText } from '@material-ui/core';
+
 
 const useStyle = makeStyles((theme) => ({
 
@@ -47,23 +45,7 @@ const useStyle = makeStyles((theme) => ({
 function Signin(){
 
     const classes = useStyle();
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState();
-
-
-
-    async function handleSingIn(){
-        
-        try{
-            await authService.signIn(email, password);
-            navigate('/');
-        } catch (error) {
-            setErrorMessage(error.response.data.message);
-        }
-    }
-
+    
     return (
 
         <Grid container className={classes.root}>
@@ -102,8 +84,7 @@ function Signin(){
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
+                            
                         />
                         <TextField
                             variant="outlined"
@@ -115,24 +96,17 @@ function Signin(){
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
 
                         />
                         <Button 
                             variant="contained"
                             color="primary"
                             fullWidth
-                            className={classes.button}
-                            onClick={handleSingIn}>
+                            className={classes.button}>
+                            {/* onClick={handleSingIn} */}
                             Entrar
                         </Button>
-                        {
-                            errorMessage && 
-                            <FormHelperText error>
-                                {errorMessage}
-                            </FormHelperText>
-                        }
+    
 
                         <Grid container className={classes.links}>
 
