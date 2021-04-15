@@ -146,8 +146,6 @@ function Catalogo() {
                     </IconButton>
                     <img src="./images/locar.jpg" alt='logo' className={classes.logo} />
                     <div className={classes.grow} />
-                    <Button variant='outlined' color='primary'>Fazer Login</Button>
-
                 </Toolbar>
             </AppBar>
             

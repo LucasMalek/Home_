@@ -3,9 +3,7 @@ import { Button, SvgIcon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { AlignCenter, AlignLeft, Bell, Italic } from 'react-feather'
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
+import { Italic } from 'react-feather'
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles({
