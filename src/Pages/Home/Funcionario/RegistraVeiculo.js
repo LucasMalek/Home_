@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import Typography from '@material-ui/core/Typography';
-import Avatar from  '@material-ui/core/Avatar';
+import Avatar from '@material-ui/core/Avatar';
+import LeftDrawer from '../Components/Drawer';
 
 
 const useStyle = makeStyles((theme) => ({
@@ -40,28 +41,31 @@ const useStyle = makeStyles((theme) => ({
 
 }));
 
-function RegistrarVeiculo(){
+function RegistrarVeiculo() {
 
     const classes = useStyle();
 
-    return(
+    return (
+        <div>
+            <LeftDrawer />
 
-        <Grid container className={classes.root}>
-            <Grid>
-                <Box display="flex" flexDirection="column" alignItems='center' mt={8}>
-                <Avatar className={classes.avatar}>
-                        <DriveEtaIcon />
-                    </Avatar>
-                    <Typography variant='h6'>
-                        Registros de Veículos
+            <Grid container className={classes.root}>
+                <Grid>
+                    <Box display="flex" flexDirection="column" alignItems='center' mt={8}>
+                        <Avatar className={classes.avatar}>
+                            <DriveEtaIcon />
+                        </Avatar>
+                        <Typography variant='h6'>
+                            Registros de Veículos
                     </Typography>
-                    <form className={classes.form} method="post">
+                        <form className={classes.form} method="post">
 
-                    </form>
+                        </form>
 
-                </Box>
+                    </Box>
+                </Grid>
             </Grid>
-        </Grid>
+        </div>
 
     );
 
