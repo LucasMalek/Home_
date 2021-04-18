@@ -32,7 +32,7 @@ function Header() {
                 <img src="./images/locar.jpg" alt="logo" className={classes.img} />
                 <div className={classes.grow}></div>
                 <Button
-                variant="contained"
+                variant="outlained"
                 color="primary"
                 startIcon={<DirectionsCarIcon />}
                 component={Link} to="/Catalogo">Catálogo</Button>

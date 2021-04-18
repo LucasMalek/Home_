@@ -58,7 +58,7 @@ function Signin(){
                     <Typography variant='h6'>
                         Acesso Restrito para Funcionários
                     </Typography>
-                    <form className={classes.form}>
+                    <form className={classes.form} method="post">
                         <TextField 
                             variant="outlined"
                             margin="normal"
@@ -83,13 +83,15 @@ function Signin(){
                             autoComplete="current-password"
 
                         />
+                        <Link to="/Funcionario" style={{textDecoration: 'none'}}>
                         <Button 
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            className={classes.button}>
-                            Entrar
+                        variant="contained" 
+                        color="primary" 
+                        fullWidth 
+                        className={classes.button}>
+                        Entrar
                         </Button>
+                        </Link>
 
                     </form>
                 </Box>
