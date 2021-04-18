@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
+import Typography from '@material-ui/core/Typography';
+import Avatar from  '@material-ui/core/Avatar';
 
 
 const useStyle = makeStyles((theme) => ({
