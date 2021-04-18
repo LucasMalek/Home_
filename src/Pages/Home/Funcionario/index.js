@@ -5,7 +5,6 @@ function Funcionario() {
 
     return(
         <LeftDrawer />
-        
     )
     
 }

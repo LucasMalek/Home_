@@ -41,7 +41,7 @@ const useStyle = makeStyles((theme) => ({
         margin: theme.spacing(4, 4, 0, 4)
     },
 
-  }))
+}));
 
 function Signin(){
 
