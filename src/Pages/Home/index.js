@@ -77,7 +77,7 @@ function Home() {
 
         <Container maxWidth="lg" className={classe.div_2}>
           <Box display="flex">
-            <Navbar />
+            {/* <Navbar /> */}
 
             <Feed />
 

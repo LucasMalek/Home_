@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Button, ListItem, ListItemText } from '@material-ui/core';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import { Autorenew } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 
 
