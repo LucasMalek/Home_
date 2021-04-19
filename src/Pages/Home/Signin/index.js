@@ -20,7 +20,7 @@ const useStyle = makeStyles((theme) => ({
 
     avatar: {
         background: theme.palette.primary.main,
-        marginBottom: theme.spacing(1),
+        marginBottom: theme.spacing(3),
     },
 
     img: {
