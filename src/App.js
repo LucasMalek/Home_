@@ -7,7 +7,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Catalogo from './Pages/Home/Catalogo';
 //import Suporte from './Pages/Home/Suporte';
 import Funcionario from './Pages/Home/Funcionario'
-import RegistrarVeiculo from './Pages/Home/Funcionario/RegistraVeiculo'
+import Regcliente from './Pages/Home/Funcionario/Regcliente'
+import Pesquisarveiculo from './Pages/Home/Funcionario/Pesquisarveiculo'
 
 function App() {
 
@@ -19,8 +20,8 @@ function App() {
           <Route path='/sign-in' element={<Signin />} />
           <Route path='/Catalogo' element={<Catalogo />} />
           <Route path='/Funcionario' element={<Funcionario />} />
-          <Route path='/Funcionario/RVeiculo' element={<RegistrarVeiculo />} />
-
+          <Route path='/Regcliente' element={<Regcliente/>} />
+          <Route path= '/Pesquisarveiculo' element={<Pesquisarveiculo/>}/>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

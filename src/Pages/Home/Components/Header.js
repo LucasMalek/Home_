@@ -7,9 +7,7 @@ import { Link } from 'react-router-dom';
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 
 const useStyles = makeStyles({
-    appBar: {
-        boxShadow: 'none',
-    },
+    
     img: {
         maxHeight: 62,
         alignSelf: 'center',

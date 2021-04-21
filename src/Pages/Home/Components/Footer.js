@@ -31,6 +31,9 @@ const useStyle = makeStyles({
         marginTop: 250,
         marginLeft: 50,
     },
+    container: {
+        marginLeft: 230,
+    }
     
 })
 

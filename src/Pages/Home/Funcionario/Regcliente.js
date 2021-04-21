@@ -77,9 +77,9 @@ toptext: {
   backgroundSize: 'cover',
 },
 image: {
-  backgroundImage: 'url(./images/opa.jpg)',
+  backgroundImage: 'url(./images/11.webp)',
   width: '100%',
-  height: '529px',
+  height: '650px',
   backgroundSize: 'cover',
 },
 back: {
@@ -89,17 +89,16 @@ back: {
 }));
 
 
-
-function Funcionario() {
-
-  const classes = useStyles();
+function Regcliente()
+{
+    const classes = useStyles();
 
   
     return(
       <div className={classes.root2}>
         <div className={classes.toptext} >
        <ThemeProvider theme={theme}>
-       <Typography  style={{paddingLeft: 290, paddingBottom: 10, color: '#E6E6FA'}} variant="h3">Registrar um veículo</Typography>
+       <Typography  style={{paddingLeft: 290, paddingBottom: 10, color: '#E6E6FA'}} variant="h3">Registrar Cliente</Typography>
        </ThemeProvider>
          </div>
       <div className={classes.root}>
@@ -110,7 +109,7 @@ function Funcionario() {
         <div className={classes.content}>
         
       
-       <Grid container spacing={3} 
+       <Grid container spacing={4} 
         justify="center"
         alignItems="center"
        > 
@@ -130,16 +129,16 @@ function Funcionario() {
        >
        <Grid item xs={12} >
       <form className={classes.container}>
-        <Typography variant="h6" >Modelo</Typography>
+        <Typography variant="h6" >Nome</Typography>
         <TextField
         variant="outlined"
         margin="normal"
         required
         fullWidth
-        id="modelo"
-        label="Modelo do carro"
-        name="Modelo"
-        autoComplete="Modelo"
+        id="Nome"
+        
+        name="Nome"
+        autoComplete="Nome"
         autoFocus
         >
         </TextField>
@@ -147,19 +146,19 @@ function Funcionario() {
       </Grid>
       <Grid item xs={6}> 
       <form className={classes.container}>
-        <Typography variant="h6" >Quilometragem</Typography>
+        <Typography variant="h6" >CPF</Typography>
         <TextField
         variant="outlined"
         margin="normal"
         required
         fullWidth
-        id="Quilometragem"
-        label="Quilometragem"
-        name="Quilometragem"
-        autoComplete="Quilometragem"
+        id="CPF"
+        
+        name="CPF"
+        autoComplete="CPF"
         autoFocus
         InputProps={{
-          startAdornment: <InputAdornment position="start">Km</InputAdornment>,
+          startAdornment: <InputAdornment position="start">000.000.000.00</InputAdornment>,
         }}
         >
         </TextField>
@@ -167,16 +166,16 @@ function Funcionario() {
         </Grid>
         <Grid item xs={6}>
       <form className={classes.container}>
-        <Typography variant="h6" >Ano</Typography>
+        <Typography variant="h6" >Data de nascimento</Typography>
         <TextField
         variant="outlined"
         margin="normal"
         required
         fullWidth
-        id="Ano"
-        label="Ano do carro"
-        name="Ano"
-        autoComplete="Ano"
+        id="Data"
+        label="dd/mm/aa"
+        name="Data"
+        autoComplete="Data"
         autoFocus
         >
         </TextField>
@@ -184,19 +183,18 @@ function Funcionario() {
         </Grid>
         <Grid item xs={6}> 
       <form className={classes.container}>
-        <Typography variant="h6" >Valor</Typography>
+        <Typography variant="h6" >CNH</Typography>
         <TextField
         variant="outlined"
         margin="normal"
         required
         fullWidth
-        id="Quilometragem"
-        label="Quilometragem"
-        name="Quilometragem"
-        autoComplete="Quilometragem"
+        id="CNH"
+        name="CNH"
+        autoComplete="CNH"
         autoFocus
         InputProps={{
-          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          startAdornment: <InputAdornment position="start">000000000</InputAdornment>,
         }}
         >
         </TextField>
@@ -204,23 +202,37 @@ function Funcionario() {
         </Grid>
         <Grid item xs={6}>
       <form className={classes.container}>
-        <Typography variant="h6" >Placa</Typography>
+        <Typography variant="h6" >Telefone</Typography>
         <TextField
         variant="outlined"
         margin="normal"
         required
         fullWidth
-        id="Plca"
-        label="Placa"
-        name="Placa"
-        autoComplete="Placa"
+        id="Telefone"
+        name="Telefone"
+        autoComplete="Telefone"
         autoFocus
         >
         </TextField>
       </form>
         </Grid>
         <Grid item xs={12}>
-          
+      <form className={classes.container} >
+        <Typography variant="h6" >Endereço</Typography>
+        <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        id="Endereço"
+        name="Endereço"
+        autoComplete="Endereço"
+        autoFocus
+        >
+        </TextField>
+      </form>
+        </Grid>
+        <Grid item xs={12}>
       <form className={classes.container} >
         <Typography variant="h6" >Informações adicionais</Typography>
         <TextField
@@ -229,7 +241,6 @@ function Funcionario() {
         required
         fullWidth
         id="Info"
-        label="Informações adicionais"
         name="Info"
         autoComplete="Info"
         autoFocus
@@ -240,9 +251,7 @@ function Funcionario() {
       </form>
         </Grid>
        </Grid>
-     
        </Grid>
-       
         </div>
     </div>
     <div  className={classes.foo}>
@@ -253,4 +262,4 @@ function Funcionario() {
 
 }
 
-export default Funcionario
+export default Regcliente;

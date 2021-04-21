@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Header from './Header'
+import { DonutLargeOutlined } from '@material-ui/icons';
 
 const drawerWidth = 240;
 
@@ -15,24 +17,34 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
+  drawerPaper: {
+    width: drawerWidth,
+  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    borderStyle: 'dotted',
+    
   },
   drawerPaper: {
     width: drawerWidth,
+    
   },
   drawerContainer: {
     overflow: 'auto',
+    
   },
-
+  
   logo: {
     maxHeight: 62,
     alignSelf: 'center',
 },
+item: {
+  paddingTop: 10
+}
 }));
 
 export default function LeftDrawer() {
@@ -44,35 +56,35 @@ export default function LeftDrawer() {
 
       <CssBaseline />
       <AppBar color='inherit' position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <img src="./images/locar.jpg" alt='logo' className={classes.logo} />
-        </Toolbar>
+        <Header/>
       </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"
+        anchor="left"
+        
         classes={{
           paper: classes.drawerPaper,
         }}
       >
-        <Toolbar />
+        <Toolbar  />
         <div className={classes.drawerContainer}>
 
             <Divider />
             < ListItem button key={'Registrar Veículo'} >
-              <ListItemText primary={'Registrar Veículo'} />
+              <ListItemText primary={'Registrar Veículo'} className={classes.item} />
             </ListItem >
             <ListItem button key={'Registrar Cliente'}>
-              <ListItemText primary={'Registrar Cliente'} />
+              <ListItemText primary={'Registrar Cliente'} className={classes.item} />
             </ListItem>
             <ListItem button key={'Nova Locação'}>
-              <ListItemText primary={'Nova Locação'} />
+              <ListItemText primary={'Nova Locação'} className={classes.item} />
             </ListItem>
             <ListItem button key={'Registrar Retorno'}>
-              <ListItemText primary={'Registrar Retorno'} />
+              <ListItemText primary={'Registrar Retorno'} className={classes.item} />
             </ListItem>
             <ListItem button key={'Pesquisar Veículo'}>
-              <ListItemText primary={'Pesquisar Veículo'} />
+              <ListItemText primary={'Pesquisar Veículo'} className={classes.item} />
             </ListItem>
 
         </div>
