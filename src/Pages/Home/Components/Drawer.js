@@ -10,6 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Header from './Header'
 import { DonutLargeOutlined } from '@material-ui/icons';
+import { useNavigate } from 'react-router';
 
 const drawerWidth = 240;
 
@@ -48,7 +49,7 @@ item: {
 }));
 
 export default function LeftDrawer() {
-
+  const navigate = useNavigate()
   const classes = useStyles();
 
   return (
@@ -72,10 +73,10 @@ export default function LeftDrawer() {
 
             <Divider />
             < ListItem button key={'Registrar Veículo'} >
-              <ListItemText primary={'Registrar Veículo'} className={classes.item} />
+              <ListItemText onClick={() => navigate("/funcionario")} primary={'Registrar Veículo'} className={classes.item} />
             </ListItem >
             <ListItem button key={'Registrar Cliente'}>
-              <ListItemText primary={'Registrar Cliente'} className={classes.item} />
+              <ListItemText onClick={() => navigate("/regCliente")} primary={'Registrar Cliente'} className={classes.item} />
             </ListItem>
             <ListItem button key={'Nova Locação'}>
               <ListItemText primary={'Nova Locação'} className={classes.item} />

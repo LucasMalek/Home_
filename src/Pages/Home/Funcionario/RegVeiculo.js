@@ -1,9 +1,8 @@
-import React from 'react'
-import { Box, Button, FormHelperText, makeStyles, TextField, Typography } from '@material-ui/core';
-import { Formik } from 'formik';
+import React, { useState } from 'react'
+import { Box, Button, FormControl, FormHelperText, InputAdornment, InputLabel, makeStyles, MenuItem, Select, TextField, Typography } from '@material-ui/core';
+import { Formik } from 'formik'
 import * as Yup from 'yup';
-import apiCliente from '../../../utils/apiCliente';
-
+import apiVeiculo from '../../../utils/apiVeiculo'
 const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -15,13 +14,6 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
     },
-    // drawer: {
-    //   width: drawekrWidth,
-    //   flexShrink: 0,
-    // },
-    // drawerPaper: {
-    //   width: drawerWidth,
-    // },
     drawerContainer: {
       // overflow: 'auto',
       width: '20%',
@@ -75,43 +67,51 @@ const useStyles = makeStyles((theme) => ({
   back: {
    
     backgroundColor: '#B8B8B8',
-  }
+  },
+  formControlTipo: {
+    margin: theme.spacing(1),
+    minWidth: '30%',
+  },
 }));
-
-export default function RegCliente() {
+export default function Regveiculo() {
     const classes = useStyles()
+    const [type,setType] = useState()
+
+    const handleSelectedType = (tab) => {
+        setType(tab)
+    }
     return(
         <Box className={classes.divcadastro} >
-          <Formik
+        <Formik
             initialValues={{
-               nome: '',
-               cpf: '',
-               endereco: '',
-               data: '',
-               telefone: '',
+                nome: '',
+                modelo: '',
+                valor: '',
+                quilometragem: '',
+                ano: '',
+                placa: '',
             }}
             validationSchema={Yup.object().shape({
-              cpf: Yup.string()
-              .min(11,'CPF de 11 dígitos.')
-              .required('Informe seu CPF'),
-              nome: Yup.string().max(50)
-                  .min(10, 'O nome precisa ter ao menos 10 caracteres')
-                  .required('Favor informar o nome completo'),
-              telefone: Yup.string().max(11,'Telefone tem mais de 11 dígitos.')
-                  .required('Favor informar um Telefone. '),
-              endereco: Yup.string().required("Informe um endereço.")
+                nome: Yup.string().max(50)
+                .min(5, 'O nome precisa ter ao menos 5 caracteres')
+                .required('Favor informar o nome completo'),
+                quilometragem: Yup.string()
+                .required("Informe a quilometragem."),
+                ano: Yup.string().required("Informe o ano."),
+                placa: Yup.string().required("Informe a placa.")
             })}
             onSubmit={async (
                 values,
                 { setErrors, setStatus, setSubmitting },
             ) => {
                 try {
-                    await apiCliente.post(`/adicionarcliente`,{
-                        nome: values.nome,
-                        cpf: values.cpf,
-                        endereco: values.endereco,
-                        data: values.data,
-                        telefone: values.telefone
+                    await apiVeiculo.post(`/adicionarcarro`,{
+                        Cnome:values.nome,
+                        modelo: type,
+                        valor_dia: values.valor,
+                        ano: values.ano,
+                        quilometragem: values.quilometragem,
+                        placa: values.placa,
                     })
                     setStatus({ success: true });
                     setSubmitting(true);
@@ -123,13 +123,15 @@ export default function RegCliente() {
                     setStatus({ success: false });
                     setErrors({ submit: message });
                     setSubmitting(false);
+                }finally {
+                    // props.getRows()
                 }
             }}
         >
         {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
-        <form noValidate onSubmit = {handleSubmit}  >
+        <form className={classes.container} onSubmit={handleSubmit}>
           <Box className={classes.toptext} >
-            <Typography  style={{ color: '#E6E6FA'}} variant="h3">Registrar um cliente</Typography>
+            <Typography  style={{ color: '#E6E6FA'}} variant="h3">Registrar um veículo</Typography>
           </Box>
           <TextField
           variant="outlined"
@@ -137,7 +139,7 @@ export default function RegCliente() {
           required
           fullWidth
           id="nome"
-          label="Nome Completo"
+          label="Nome"
           name="nome"
           autoComplete="nome"
           autoFocus
@@ -147,91 +149,101 @@ export default function RegCliente() {
           onChange={handleChange}
           >
           </TextField>
+          <FormControl className={classes.formControlTipo}>
+              <InputLabel id="tipo">Modelo</InputLabel>
+              <Select
+              labelId="tipo"
+              id="tipo"
+              error={Boolean(errors.tipo)}
+              value={type}
+              helperText={errors.tipo}
+              onChange={handleChange}
+              >
+              {['CrossOver', 'Esportivo', 'Hatch e Hatchback', 'Jipe', 'Picape',
+                      'Sedan', 'SUV', 'Van e Minivan'].map((tab) => (
+                  <MenuItem onClick={handleSelectedType(tab)} value={tab}>{tab}</MenuItem>
+              ))}
+              </Select>
+          </FormControl>
           <TextField
           variant="outlined"
           margin="normal"
           required
           fullWidth
-          error={Boolean(errors.cpf)}
-          value={values.cpf}
-          helperText={errors.cpf}
-          id="cpf"
-          label="CPF"
-          name="cpf"
-          autoComplete="cpf"
+          id="valor"
+          label="valor"
+          name="valor"
+          autoComplete="valor"
           autoFocus
+          error={Boolean(errors.valor)}
+          value={values.valor}
+          helperText={errors.valor}
           onChange={handleChange}
-
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
           >
           </TextField>
-          {/* <Typography variant="h6" >Quilometragem</Typography> */}
-          {/* <Typography variant="h6" >Ano</Typography> */}
           <TextField
           variant="outlined"
           margin="normal"
           required
-          error={Boolean(errors.data)}
-          value={values.data}
-          helperText={errors.data}
-          type="date"
           fullWidth
-          id="data"
-          label="Data de Nascimento"
-          name="data"
-          autoComplete="data"
+          id="ano"
+          label="Ano do carro"
+          name="ano"
+          autoComplete="ano"
           autoFocus
-          InputLabelProps={{
-            shrink: true,
-        }}
-        onChange={handleChange}
-
+          error={Boolean(errors.ano)}
+          value={values.ano}
+          helperText={errors.ano}
+          onChange={handleChange}
           >
           </TextField>
-          {/* <Typography variant="h6" >Placa</Typography> */}
           <TextField
           variant="outlined"
           margin="normal"
           required
-          error={Boolean(errors.telefone)}
-          value={values.telefone}
-          helperText={errors.telefone}
           fullWidth
-          id="telefone"
-          label="Telefone"
-          name="telefone"
-          autoComplete="telefone"
+          id="quilometragem"
+          label="Quilometragem"
+          name="quilometragem"
+          autoComplete="quilometragem"
           autoFocus
+          error={Boolean(errors.quilometragem)}
+          value={values.quilometragem}
+          helperText={errors.quilometragem}
           onChange={handleChange}
-
+          InputProps={{
+            startAdornment: <InputAdornment position="start">Km</InputAdornment>,
+          }}
           >
           </TextField>
-          {/* <Typography variant="h6" >Informações adicionais</Typography> */}
           <TextField
           variant="outlined"
           margin="normal"
           required
           fullWidth
-          error={Boolean(errors.endereco)}
-          value={values.endereco}
-          helperText={errors.endereco}
-          id="endereco"
-          label="Endereço"
-          name="endereco"
-          autoComplete="endereco"
+          id="placa"
+          label="Placa"
+          name="placa"
+          autoComplete="placa"
           autoFocus
+          error={Boolean(errors.placa)}
+          value={values.placa}
+          helperText={errors.placa}
           onChange={handleChange}
-
           >
           </TextField>
           <Button
                 fullWidth
                 variant="contained"
-                // color="#E6E6FA"
+                color="#E6E6FA"
                 // className={classes.button}
                 type="submit"
                 disbled={isSubmitting}
             >
-                CADASTRAR CLIENTE
+                CADASTRAR CARRO
             </Button>
             {errors.submit && (
                 <FormHelperText error>{errors.submit}</FormHelperText>

@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
+import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles({
     
@@ -25,6 +26,7 @@ const useStyles = makeStyles({
 function Header() {
     const classes = useStyles();
     return (
+        <Box style={{display:'flex', paddingBottom: 90}}>
         <AppBar position='fixed' color="inherit" className={classes.appBar}>
             <Toolbar>
                 <img src="./images/locar.jpg" alt="logo" className={classes.img} />
@@ -36,6 +38,7 @@ function Header() {
                 component={Link} to="/Catalogo">Catálogo</Button>
             </Toolbar>
         </AppBar>
+        </Box>
     )
 }
 
