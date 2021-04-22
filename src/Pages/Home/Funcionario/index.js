@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     flexDirection:'column',
     float:'left',
+    marginTop: 90
     
   },
   content: {
@@ -124,7 +125,7 @@ function Funcionario() {
             aria-labelledby={`wrapped-tab-${index}`}
             {...other}
         >
-            {value === index && <Box p={3}>{children}</Box>}
+            {value === index && <Box p={13}>{children}</Box>}
         </Typography>
     )
 }

@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 function Header() {
     const classes = useStyles();
     return (
-        <Box style={{display:'flex', paddingBottom: 90}}>
+        <Box style={{display:'flex', paddingBottom: 0}}>
         <AppBar position='fixed' color="inherit" className={classes.appBar}>
             <Toolbar>
                 <img src="./images/locar.jpg" alt="logo" className={classes.img} />

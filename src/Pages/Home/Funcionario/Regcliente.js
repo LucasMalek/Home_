@@ -75,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
   back: {
    
     backgroundColor: '#B8B8B8',
+  },
+  form: {
+    margin: theme.spacing(2, 16, 2, 16)
   }
 }));
 
@@ -127,7 +130,7 @@ export default function RegCliente() {
             }}
         >
         {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
-        <form noValidate onSubmit = {handleSubmit}  >
+        <form noValidate onSubmit = {handleSubmit} className={classes.form} >
           <Box className={classes.toptext} >
             <Typography  style={{ color: '#E6E6FA'}} variant="h3">Registrar um cliente</Typography>
           </Box>
