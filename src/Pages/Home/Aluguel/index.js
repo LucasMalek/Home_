@@ -73,7 +73,6 @@ function Alugueis() {
     const handleSelectedCliente = (tab) => {
         setClienteId(tab.id)
     }
-
     const getCarros = useCallback(async () => {
         await apiVeiculo.get('/carrosdisponiveis')
         .then(response => {
@@ -433,10 +432,10 @@ function Alugueis() {
                 <TableHead >
                     <TableRow>
                         <TableCell>ID</TableCell>
-                        <TableCell>NOME</TableCell>
-                        <TableCell>ENDEREÇO</TableCell>
-                        <TableCell>TELEFONE</TableCell>
-                        <TableCell align= 'center'>CLIENTE DESDE</TableCell>
+                        <TableCell>NOME DO CARRO</TableCell>
+                        <TableCell>VALOR</TableCell>
+                        {/* <TableCell>NOME DO CLIENTE</TableCell> */}
+                        <TableCell align= 'center'>DATA DE LOCAÇÃO</TableCell>
                         <TableCell align = 'center'>OPÇÕES</TableCell>
                     </TableRow>
                 </TableHead>
@@ -445,9 +444,9 @@ function Alugueis() {
                     rows?.map((tab) => (
                         <TableRow>
                             <TableCell>{tab.id}</TableCell>
-                            <TableCell>{tab.nome}</TableCell>
-                            <TableCell>{tab.endereco}</TableCell>
-                            <TableCell>{tab.telefone}</TableCell>
+                            <TableCell>{tab.carro.Cnome}</TableCell>
+                            <TableCell>{tab.valor}</TableCell>
+                            {/* <TableCell>{tab.cliente.Cnome}</TableCell> */}
                             <TableCell align='center'>
                                 {new Date(tab.createdAt).toLocaleDateString()}
                             </TableCell>
@@ -457,7 +456,7 @@ function Alugueis() {
                                 </Button>
                                 <Button onClick={async ()=>{
                                     try{
-                                        await apiLocacao.delete(`/deletaraluguel/${tab.id}`)
+                                        await apiLocacao.delete(`/deletaraluguel/${tab.id}/${tab.carro.id}` )
                                     }catch(error){
                                         console.log(error)
                                     }finally{

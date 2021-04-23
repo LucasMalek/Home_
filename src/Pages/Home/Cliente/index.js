@@ -1,20 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
-// import { useDispatch } from 'react-redux'
 import apiCliente from '../../../utils/apiCliente'
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as Yup from 'yup';
-import { Box, Button, Dialog, DialogTitle, FormHelperText, Popover, TextField, Typography,  } from '@material-ui/core';
+import { Box, Button, FormHelperText, Popover, TextField, Typography,  } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
-// import EditarCliente from '../Apresentação/EditarCliente';
-// import CadastrarCliente from '../Cadastro/CadastrarCliente'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +32,6 @@ function Clientes() {
     const getRows = useCallback(async () => {
         await apiCliente.get()
             .then(response => {
-                console.log("RESPOSTA",response)
                 setRows(response.data.cliente)
             }).catch(error => {
                 console.log(error)
