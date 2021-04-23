@@ -451,9 +451,9 @@ function Alugueis() {
                                 {new Date(tab.createdAt).toLocaleDateString()}
                             </TableCell>
                             <TableCell align = 'center' >
-                                <Button onClick={() => handleClickEdit(tab)}>
+                                {/* <Button onClick={() => handleClickEdit(tab)}>
                                     <EditIcon  color='secondary'/>
-                                </Button>
+                                </Button> */}
                                 <Button onClick={async ()=>{
                                     try{
                                         await apiLocacao.delete(`/deletaraluguel/${tab.id}/${tab.carro.id}` )
