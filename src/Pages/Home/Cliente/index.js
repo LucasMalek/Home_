@@ -1,16 +1,20 @@
 import React, { useState, useCallback, useEffect } from 'react';
 // import { useDispatch } from 'react-redux'
-import apiFuncionario from '../../../utils/apiFuncionario'
+import apiCliente from '../../../utils/apiCliente'
 import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as Yup from 'yup';
-import { Box, Button, FormHelperText, Popover, TextField, Typography,  } from '@material-ui/core';
+import { Box, Button, Dialog, DialogTitle, FormHelperText, Popover, TextField, Typography,  } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
+// import EditarCliente from '../Apresentação/EditarCliente';
+// import CadastrarCliente from '../Cadastro/CadastrarCliente'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,15 +29,16 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
-function Funcionarios() {
+function Clientes() {
     const classes = useStyles();
     // const dispatch = useDispatch()
     const [rows, setRows] = useState([])
 
     const getRows = useCallback(async () => {
-        await apiFuncionario.get()
+        await apiCliente.get()
             .then(response => {
-                setRows(response.data.funcionarios)
+                console.log("RESPOSTA",response)
+                setRows(response.data.cliente)
             }).catch(error => {
                 console.log(error)
             })
@@ -61,17 +66,17 @@ function Funcionarios() {
 //#######################################################
 
     /*Editar*/
-    const [funcionarioEditar,setFuncionarioEditar] = useState()
+    const [clienteEditar,setClienteEditar] = useState()
     const [anchorElEditar, setAnchorElEditar] = useState(null);
     const handleClickEdit = (tab) => {
         setAnchorElEditar(true);
         console.log(tab)
-        setFuncionarioEditar(tab);
+        setClienteEditar(tab);
       };
     
       const handleCloseEdit = () => {
         setAnchorElEditar(null);
-        setFuncionarioEditar(null);
+        setClienteEditar(null);
       };
 
       const openEditar = Boolean(anchorElEditar);
@@ -83,7 +88,7 @@ function Funcionarios() {
     return(
         <div className={classes.root}>
         <Button onClick={handleClick} variant="contained" color="secondary">
-            Registrar Funcionário
+            Registrar Cliente
         </Button>
         <div>
             <Popover
@@ -108,8 +113,6 @@ function Funcionarios() {
                     endereco: '',
                     data: '',
                     telefone: '',
-                    email: '',
-                    senha: '',
                     }}
                     validationSchema={Yup.object().shape({
                     cpf: Yup.string()
@@ -120,24 +123,19 @@ function Funcionarios() {
                         .required('Favor informar o nome completo'),
                     telefone: Yup.string().max(11,'Telefone tem mais de 11 dígitos.')
                         .required('Favor informar um Telefone. '),
-                    endereco: Yup.string().required("Informe um endereço."),
-                    email: Yup.string().max(50).min(20).required("Informe um email."),
-                        senha: Yup.string().max(10,'Máximo 10 caracteres na senha.')
-                        .min(5, 'Mínimo 5 caracteres na senha.').required('Favor informar uma senha.')
+                    endereco: Yup.string().required("Informe um endereço.")
                     })}
                     onSubmit={async (
                         values,
                         { setErrors, setStatus, setSubmitting },
                     ) => {
                         try {
-                            await apiFuncionario.post(`/adicionarfuncionario`,{
+                            await apiCliente.post(`/adicionarcliente`,{
                                 nome: values.nome,
                                 cpf: values.cpf,
                                 endereco: values.endereco,
                                 data: values.data,
-                                telefone: values.telefone,
-                                email: values.email,
-                                senha: values.senha,
+                                telefone: values.telefone
                             })
                             setStatus({ success: true });
                             setSubmitting(true);
@@ -155,7 +153,7 @@ function Funcionarios() {
                 {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
                 <form noValidate onSubmit = {handleSubmit} className={classes.form} >
                 <Box className={classes.toptext} >
-                    <Typography  style={{ backgroundColor: 'black', color: '#E6E6FA'}} variant="h3">Registrar um Funcionário</Typography>
+                    <Typography  style={{ backgroundColor: 'black', color: '#E6E6FA'}} variant="h3">Registrar um cliente</Typography>
                 </Box>
                 <TextField
                 variant="outlined"
@@ -246,40 +244,9 @@ function Funcionarios() {
                 autoComplete="endereco"
                 autoFocus
                 onChange={handleChange}
+
                 >
                 </TextField>
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                error={Boolean(errors.email)}
-                value={values.email}
-                helperText={errors.email}
-                onChange={handleChange}
-                ></TextField>
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                type="password"
-                type="password"
-                fullWidth
-                id="senha"
-                label="Senha"
-                name="senha"
-                autoComplete="senha"
-                autoFocus
-                error={Boolean(errors.senha)}
-                value={values.senha}
-                helperText={errors.senha}
-                onChange={handleChange}
-                ></TextField>
                 <Button
                         fullWidth
                         variant="contained"
@@ -288,7 +255,7 @@ function Funcionarios() {
                         type="submit"
                         disbled={isSubmitting}
                     >
-                        CADASTRAR FUNCIONÁRIO
+                        CADASTRAR CLIENTE
                     </Button>
                     {errors.submit && (
                         <FormHelperText error>{errors.submit}</FormHelperText>
@@ -317,9 +284,9 @@ function Funcionarios() {
             <Box className={classes.divcadastro} >
                 <Formik
                     initialValues={{
-                    nome: funcionarioEditar?.fnome,
-                    endereco: funcionarioEditar?.fendereco,
-                    telefone: funcionarioEditar?.telefone,
+                    nome: clienteEditar?.nome,
+                    endereco: clienteEditar?.endereco,
+                    telefone: clienteEditar?.telefone,
                     }}
                     validationSchema={Yup.object().shape({
                     nome: Yup.string().max(50)
@@ -334,11 +301,11 @@ function Funcionarios() {
                         { setErrors, setStatus, setSubmitting },
                     ) => {
                         try {
-                            await apiFuncionario.put(`/editarfuncionario`,{
+                            await apiCliente.put(`/editarcliente`,{
                                 nome: values.nome,
                                 endereco: values.endereco,
                                 telefone: values.telefone,
-                                funcionario_id: funcionarioEditar?.id,
+                                cliente_id: clienteEditar?.id,
                             })
                             setStatus({ success: true });
                             setSubmitting(true);
@@ -356,7 +323,7 @@ function Funcionarios() {
                 {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
                 <form noValidate onSubmit = {handleSubmit} className={classes.form} >
                 <Box className={classes.toptext} >
-                    <Typography  style={{ backgroundColor: 'black', color: '#E6E6FA'}} variant="h3">Editar um Funcionário</Typography>
+                    <Typography  style={{ backgroundColor: 'black', color: '#E6E6FA'}} variant="h3">Editar um cliente</Typography>
                 </Box>
                 <TextField
                 variant="outlined"
@@ -364,7 +331,7 @@ function Funcionarios() {
                 disabled
                 fullWidth
                 error={Boolean(errors.cpf)}
-                value={funcionarioEditar?.fcpf}
+                value={clienteEditar?.cpf}
                 helperText={errors.cpf}
                 id="cpf"
                 label="CPF"
@@ -434,7 +401,7 @@ function Funcionarios() {
                         type="submit"
                         disbled={isSubmitting}
                     >
-                        EDITAR FUNCIONÁRIO
+                        EDITAR CLIENTE
                     </Button>
                     {errors.submit && (
                         <FormHelperText error>{errors.submit}</FormHelperText>
@@ -452,7 +419,7 @@ function Funcionarios() {
                         <TableCell>NOME</TableCell>
                         <TableCell>ENDEREÇO</TableCell>
                         <TableCell>TELEFONE</TableCell>
-                        <TableCell align= 'center'>FUNCIONÁRIO DESDE</TableCell>
+                        <TableCell align= 'center'>CLIENTE DESDE</TableCell>
                         <TableCell align = 'center'>OPÇÕES</TableCell>
                     </TableRow>
                 </TableHead>
@@ -461,8 +428,8 @@ function Funcionarios() {
                     rows?.map((tab) => (
                         <TableRow>
                             <TableCell>{tab.id}</TableCell>
-                            <TableCell>{tab.fnome}</TableCell>
-                            <TableCell>{tab.fendereco}</TableCell>
+                            <TableCell>{tab.nome}</TableCell>
+                            <TableCell>{tab.endereco}</TableCell>
                             <TableCell>{tab.telefone}</TableCell>
                             <TableCell align='center'>
                                 {new Date(tab.createdAt).toLocaleDateString()}
@@ -473,7 +440,7 @@ function Funcionarios() {
                                 </Button>
                                 <Button onClick={async ()=>{
                                     try{
-                                        await apiFuncionario.delete(`/deletarfuncionario/${tab.id}`)
+                                        await apiCliente.delete(`/deletarcliente/${tab.id}`)
                                     }catch(error){
                                         console.log(error)
                                     }finally{
@@ -493,4 +460,4 @@ function Funcionarios() {
     )
 }
 
-export default Funcionarios
+export default Clientes

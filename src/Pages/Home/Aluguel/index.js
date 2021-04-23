@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 // import { useDispatch } from 'react-redux'
-import apiFuncionario from '../../../utils/apiFuncionario'
+import apiLocacao from '../../../utils/apiLocacao'
+import apiCliente from '../../../utils/apiCliente'
+import apiVeiculo from '../../../utils/apiVeiculo'
 import { makeStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,9 +10,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as Yup from 'yup';
-import { Box, Button, FormHelperText, Popover, TextField, Typography,  } from '@material-ui/core';
+import { Box, Button,  FormControl, FormHelperText, InputAdornment, InputLabel, MenuItem, Popover, Select, TextField, Typography,  } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { Formik } from 'formik';
+import Funcionarios from '../Funcionario';
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,19 +25,31 @@ const useStyles = makeStyles((theme) => ({
     },
     divcadastro: {
         padding: theme.spacing(2),
-    }
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: '70%',
+      },
+      formControlCarro: {
+        margin: theme.spacing(1),
+        minWidth: '30%',
+      },
+      formControlTipo: {
+        margin: theme.spacing(1),
+        minWidth: '30%',
+      },
     
 }));
 
-function Funcionarios() {
+function Alugueis() {
     const classes = useStyles();
     // const dispatch = useDispatch()
     const [rows, setRows] = useState([])
-
+    const account = useSelector(state => state.account.user.data)
     const getRows = useCallback(async () => {
-        await apiFuncionario.get()
+        await apiLocacao.get()
             .then(response => {
-                setRows(response.data.funcionarios)
+                setRows(response.data.aluguel)
             }).catch(error => {
                 console.log(error)
             })
@@ -44,6 +60,43 @@ function Funcionarios() {
         getRows()       
 
     }, [getRows])
+
+    const [rowsCliente, setRowsCliente] = useState([])
+    const [rowsCarro, setRowsCarro] = useState([])
+    const [carroId, setCarro] = useState()
+    const [clienteId, setClienteId] = useState()
+
+    const handleSelectedCarro = (tab) => {
+        setCarro(tab.id)
+    }
+
+    const handleSelectedCliente = (tab) => {
+        setClienteId(tab.id)
+    }
+
+    const getCarros = useCallback(async () => {
+        await apiVeiculo.get('/carrosdisponiveis')
+        .then(response => {
+            setRowsCarro(response.data.carro)
+        }).catch(error => {
+            console.log(error)
+        })
+    }, [setRowsCarro]);
+
+    const getRowsCliente = useCallback(async () => {
+        await apiCliente.get()
+        .then(response => {
+            setRowsCliente(response.data.cliente)
+        }).catch(error => {
+            console.log(error)
+        })
+
+    }, [setRowsCliente])
+
+    useEffect(() => {
+        getRowsCliente()
+        getCarros()
+    }, [getRowsCliente, getCarros])
 
 
     /*Adicionar*/
@@ -61,17 +114,15 @@ function Funcionarios() {
 //#######################################################
 
     /*Editar*/
-    const [funcionarioEditar,setFuncionarioEditar] = useState()
+    const [clienteEditar,setClienteEditar] = useState()
     const [anchorElEditar, setAnchorElEditar] = useState(null);
     const handleClickEdit = (tab) => {
         setAnchorElEditar(true);
-        console.log(tab)
-        setFuncionarioEditar(tab);
+        setClienteEditar(tab);
       };
     
       const handleCloseEdit = () => {
         setAnchorElEditar(null);
-        setFuncionarioEditar(null);
       };
 
       const openEditar = Boolean(anchorElEditar);
@@ -83,7 +134,7 @@ function Funcionarios() {
     return(
         <div className={classes.root}>
         <Button onClick={handleClick} variant="contained" color="secondary">
-            Registrar Funcionário
+            Registrar Aluguel
         </Button>
         <div>
             <Popover
@@ -101,201 +152,134 @@ function Funcionarios() {
                 }}
                 >
             <Box className={classes.divcadastro} >
-                <Formik
-                    initialValues={{
-                    nome: '',
-                    cpf: '',
-                    endereco: '',
-                    data: '',
-                    telefone: '',
-                    email: '',
-                    senha: '',
-                    }}
-                    validationSchema={Yup.object().shape({
-                    cpf: Yup.string()
-                    .min(11,'CPF de 11 dígitos.')
-                    .required('Informe seu CPF'),
-                    nome: Yup.string().max(50)
-                        .min(10, 'O nome precisa ter ao menos 10 caracteres')
-                        .required('Favor informar o nome completo'),
-                    telefone: Yup.string().max(11,'Telefone tem mais de 11 dígitos.')
-                        .required('Favor informar um Telefone. '),
-                    endereco: Yup.string().required("Informe um endereço."),
-                    email: Yup.string().max(50).min(20).required("Informe um email."),
-                        senha: Yup.string().max(10,'Máximo 10 caracteres na senha.')
-                        .min(5, 'Mínimo 5 caracteres na senha.').required('Favor informar uma senha.')
-                    })}
-                    onSubmit={async (
-                        values,
-                        { setErrors, setStatus, setSubmitting },
-                    ) => {
-                        try {
-                            await apiFuncionario.post(`/adicionarfuncionario`,{
-                                nome: values.nome,
-                                cpf: values.cpf,
-                                endereco: values.endereco,
-                                data: values.data,
-                                telefone: values.telefone,
-                                email: values.email,
-                                senha: values.senha,
-                            })
-                            setStatus({ success: true });
-                            setSubmitting(true);
-                            // props.close()
-                        } catch(error){
-                            const message =
-                            (error.response && error.response.data.message) ||
-                            'Alguma coisa aconteceu';
-                            setStatus({ success: false });
-                            setErrors({ submit: message });
-                            setSubmitting(false);
-                        }
-                    }}
-                >
-                {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
-                <form noValidate onSubmit = {handleSubmit} className={classes.form} >
-                <Box className={classes.toptext} >
-                    <Typography  style={{ backgroundColor: 'black', color: '#E6E6FA'}} variant="h3">Registrar um Funcionário</Typography>
-                </Box>
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="nome"
-                label="Nome Completo"
-                name="nome"
-                autoComplete="nome"
-                autoFocus
-                error={Boolean(errors.nome)}
-                value={values.nome}
-                helperText={errors.nome}
+            <Formik
+        initialValues={{
+          valor: '',
+        }}
+        validationSchema={Yup.object().shape({
+          valor: Yup.string().required("Informe o valor.")
+        })}
+        onSubmit={async (
+          values,
+          { setErrors, setStatus, setSubmitting },
+        ) => {
+          try {
+            await apiLocacao.post(`/adicionaraluguel`, {
+              id_f: account.id,
+              id_cl: clienteId,
+              id_c: carroId,
+              data_devolucao_prev: values.data,
+              valor: values.valor,
+            })
+            setStatus({ success: true });
+            setSubmitting(true);
+            // props.close()
+          } catch (error) {
+            const message =
+              (error.response && error.response.data.message) ||
+              'Alguma coisa aconteceu';
+            setStatus({ success: false });
+            setErrors({ submit: message });
+            setSubmitting(false);
+          } finally {
+            getCarros();
+            getRowsCliente();
+          }
+        }}
+      >
+        {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
+          <form className={classes.container} onSubmit={handleSubmit}>
+            <Box className={classes.toptext} >
+              <Typography style={{ color: '#E6E6FA' }} variant="h3">Registrar uma locação</Typography>
+            </Box>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="cliente">Cliente</InputLabel>
+              <Select
+                labelId="cliente"
+                id="cliente"
+                error={Boolean(errors.idcliente)}
+                value={clienteId}
+                helperText={errors.idcliente}
                 onChange={handleChange}
-                >
-                </TextField>
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                error={Boolean(errors.cpf)}
-                value={values.cpf}
-                helperText={errors.cpf}
-                id="cpf"
-                label="CPF"
-                name="cpf"
-                autoComplete="cpf"
-                autoFocus
+                renderValue={(value) => `${value.id} - ${value.nome}`}
+              >
+                {rowsCliente?.map((tab) => (
+                  <MenuItem onClick={handleSelectedCliente(tab)} value={tab}>{tab.id} - {tab.nome} </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControlCarro}>
+              <InputLabel id="carro">Carro</InputLabel>
+              <Select
+                labelId="carro"
+                id="carro"
+                error={Boolean(errors.carro)}
+                value={carroId}
+                helperText={errors.carro}
+                renderValue={(value) => `${value.modelo} - ${value.Cnome}`}
                 onChange={handleChange}
+              >
+                {rowsCarro?.map((tab) => (
+                  <MenuItem onClick={handleSelectedCarro(tab)} value={tab}>{tab.modelo} - {tab.Cnome}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              error={Boolean(errors.data)}
+              value={values.data}
+              helperText={errors.data}
+              type="date"
+              fullWidth
+              id="data"
+              label="Data de Devolução (prevista)"
+              name="data"
+              autoComplete="data"
+              autoFocus
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={handleChange}
 
-                >
-                </TextField>
-                {/* <Typography variant="h6" >Quilometragem</Typography> */}
-                {/* <Typography variant="h6" >Ano</Typography> */}
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                error={Boolean(errors.data)}
-                value={values.data}
-                helperText={errors.data}
-                type="date"
-                fullWidth
-                id="data"
-                label="Data de Nascimento"
-                name="data"
-                autoComplete="data"
-                autoFocus
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                onChange={handleChange}
-
-                >
-                </TextField>
-                {/* <Typography variant="h6" >Placa</Typography> */}
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                error={Boolean(errors.telefone)}
-                value={values.telefone}
-                helperText={errors.telefone}
-                fullWidth
-                id="telefone"
-                label="Telefone"
-                name="telefone"
-                autoComplete="telefone"
-                autoFocus
-                onChange={handleChange}
-
-                >
-                </TextField>
-                {/* <Typography variant="h6" >Informações adicionais</Typography> */}
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                error={Boolean(errors.endereco)}
-                value={values.endereco}
-                helperText={errors.endereco}
-                id="endereco"
-                label="Endereço"
-                name="endereco"
-                autoComplete="endereco"
-                autoFocus
-                onChange={handleChange}
-                >
-                </TextField>
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                error={Boolean(errors.email)}
-                value={values.email}
-                helperText={errors.email}
-                onChange={handleChange}
-                ></TextField>
-                <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                type="password"
-                type="password"
-                fullWidth
-                id="senha"
-                label="Senha"
-                name="senha"
-                autoComplete="senha"
-                autoFocus
-                error={Boolean(errors.senha)}
-                value={values.senha}
-                helperText={errors.senha}
-                onChange={handleChange}
-                ></TextField>
-                <Button
-                        fullWidth
-                        variant="contained"
-                        // color="#E6E6FA"
-                        // className={classes.button}
-                        type="submit"
-                        disbled={isSubmitting}
-                    >
-                        CADASTRAR FUNCIONÁRIO
-                    </Button>
-                    {errors.submit && (
-                        <FormHelperText error>{errors.submit}</FormHelperText>
-                    )}
-                </form>
-                )}
-                </Formik>
+            >
+            </TextField>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="valor"
+              label="valor"
+              name="valor"
+              autoComplete="valor"
+              autoFocus
+              error={Boolean(errors.valor)}
+              value={values.valor}
+              helperText={errors.valor}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              }}
+            >
+            </TextField>
+            <Button
+              fullWidth
+              variant="contained"
+              color="#E6E6FA"
+              // className={classes.button}
+              type="submit"
+              disbled={isSubmitting}
+            >
+              CADASTRAR LOCAÇÃO
+            </Button>
+            {errors.submit && (
+              <FormHelperText error>{errors.submit}</FormHelperText>
+            )}
+          </form>
+        )}
+      </Formik>
             </Box>
                 </Popover>
         </div>
@@ -317,9 +301,9 @@ function Funcionarios() {
             <Box className={classes.divcadastro} >
                 <Formik
                     initialValues={{
-                    nome: funcionarioEditar?.fnome,
-                    endereco: funcionarioEditar?.fendereco,
-                    telefone: funcionarioEditar?.telefone,
+                    nome: clienteEditar?.nome,
+                    endereco: clienteEditar?.endereco,
+                    telefone: clienteEditar?.telefone,
                     }}
                     validationSchema={Yup.object().shape({
                     nome: Yup.string().max(50)
@@ -334,11 +318,11 @@ function Funcionarios() {
                         { setErrors, setStatus, setSubmitting },
                     ) => {
                         try {
-                            await apiFuncionario.put(`/editarfuncionario`,{
+                            await apiLocacao.put(`/editarcliente`,{
                                 nome: values.nome,
                                 endereco: values.endereco,
                                 telefone: values.telefone,
-                                funcionario_id: funcionarioEditar?.id,
+                                cliente_id: clienteEditar?.id,
                             })
                             setStatus({ success: true });
                             setSubmitting(true);
@@ -356,7 +340,7 @@ function Funcionarios() {
                 {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
                 <form noValidate onSubmit = {handleSubmit} className={classes.form} >
                 <Box className={classes.toptext} >
-                    <Typography  style={{ backgroundColor: 'black', color: '#E6E6FA'}} variant="h3">Editar um Funcionário</Typography>
+                    <Typography  style={{ backgroundColor: 'black', color: '#E6E6FA'}} variant="h3">Editar um cliente</Typography>
                 </Box>
                 <TextField
                 variant="outlined"
@@ -364,7 +348,7 @@ function Funcionarios() {
                 disabled
                 fullWidth
                 error={Boolean(errors.cpf)}
-                value={funcionarioEditar?.fcpf}
+                value={clienteEditar?.cpf}
                 helperText={errors.cpf}
                 id="cpf"
                 label="CPF"
@@ -434,7 +418,7 @@ function Funcionarios() {
                         type="submit"
                         disbled={isSubmitting}
                     >
-                        EDITAR FUNCIONÁRIO
+                        EDITAR CLIENTE
                     </Button>
                     {errors.submit && (
                         <FormHelperText error>{errors.submit}</FormHelperText>
@@ -452,7 +436,7 @@ function Funcionarios() {
                         <TableCell>NOME</TableCell>
                         <TableCell>ENDEREÇO</TableCell>
                         <TableCell>TELEFONE</TableCell>
-                        <TableCell align= 'center'>FUNCIONÁRIO DESDE</TableCell>
+                        <TableCell align= 'center'>CLIENTE DESDE</TableCell>
                         <TableCell align = 'center'>OPÇÕES</TableCell>
                     </TableRow>
                 </TableHead>
@@ -461,8 +445,8 @@ function Funcionarios() {
                     rows?.map((tab) => (
                         <TableRow>
                             <TableCell>{tab.id}</TableCell>
-                            <TableCell>{tab.fnome}</TableCell>
-                            <TableCell>{tab.fendereco}</TableCell>
+                            <TableCell>{tab.nome}</TableCell>
+                            <TableCell>{tab.endereco}</TableCell>
                             <TableCell>{tab.telefone}</TableCell>
                             <TableCell align='center'>
                                 {new Date(tab.createdAt).toLocaleDateString()}
@@ -473,7 +457,7 @@ function Funcionarios() {
                                 </Button>
                                 <Button onClick={async ()=>{
                                     try{
-                                        await apiFuncionario.delete(`/deletarfuncionario/${tab.id}`)
+                                        await apiLocacao.delete(`/deletaraluguel/${tab.id}`)
                                     }catch(error){
                                         console.log(error)
                                     }finally{
@@ -493,4 +477,4 @@ function Funcionarios() {
     )
 }
 
-export default Funcionarios
+export default Alugueis
