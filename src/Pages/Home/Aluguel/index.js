@@ -46,7 +46,6 @@ function Alugueis() {
     // const dispatch = useDispatch()
     const [rows, setRows] = useState([])
     const account = useSelector(state => state.account.user.data)
-    console.log("AQUI",account)
     const getRows = useCallback(async () => {
         await apiLocacao.get()
             .then(response => {
