@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button, FormHelperText, makeStyles, TextField, Typography } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import apiCliente from '../../../utils/apiCliente';
+import apiFuncionario from '../../../utils/apiFuncionario';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,8 +90,8 @@ export default function RegCliente() {
           nome: '',
           cpf: '',
           endereco: '',
-          data: '',
-          telefone: '',
+          email: '',
+          senha: '',
         }}
         validationSchema={Yup.object().shape({
           cpf: Yup.string()
@@ -100,21 +100,22 @@ export default function RegCliente() {
           nome: Yup.string().max(50)
             .min(10, 'O nome precisa ter ao menos 10 caracteres')
             .required('Favor informar o nome completo'),
-          telefone: Yup.string().max(11, 'Telefone tem mais de 11 dígitos.')
-            .required('Favor informar um Telefone. '),
-          endereco: Yup.string().required("Informe um endereço.")
+          endereco: Yup.string().max(45, 'Informe seu endereço.')
+            .required('Favor informar um endereço. '),
+          email: Yup.string().required("Insira um email."),
+          senha: Yup.string().required("Informe uma senha")
         })}
         onSubmit={async (
           values,
           { setErrors, setStatus, setSubmitting },
         ) => {
           try {
-            await apiCliente.post(`/adicionarcliente`, {
-              nome: values.nome,
+            await apiFuncionario.post(`/`, {
               cpf: values.cpf,
+              nome: values.nome,
               endereco: values.endereco,
-              data: values.data,
-              telefone: values.telefone
+              email: values.email,
+              senha: values.senha
             })
             setStatus({ success: true });
             setSubmitting(true);
@@ -164,51 +165,8 @@ export default function RegCliente() {
               autoComplete="cpf"
               autoFocus
               onChange={handleChange}
-
             >
             </TextField>
-            {/* <Typography variant="h6" >Quilometragem</Typography> */}
-            {/* <Typography variant="h6" >Ano</Typography> */}
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              error={Boolean(errors.data)}
-              value={values.data}
-              helperText={errors.data}
-              type="date"
-              fullWidth
-              id="data"
-              label="Data de Nascimento"
-              name="data"
-              autoComplete="data"
-              autoFocus
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleChange}
-
-            >
-            </TextField>
-            {/* <Typography variant="h6" >Placa</Typography> */}
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              error={Boolean(errors.telefone)}
-              value={values.telefone}
-              helperText={errors.telefone}
-              fullWidth
-              id="telefone"
-              label="Telefone"
-              name="telefone"
-              autoComplete="telefone"
-              autoFocus
-              onChange={handleChange}
-
-            >
-            </TextField>
-            {/* <Typography variant="h6" >Informações adicionais</Typography> */}
             <TextField
               variant="outlined"
               margin="normal"
@@ -226,6 +184,41 @@ export default function RegCliente() {
 
             >
             </TextField>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              error={Boolean(errors.telefone)}
+              value={values.email}
+              helperText={errors.email}
+              id="email"
+              label="E-mail"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={handleChange}
+
+            >
+            </TextField>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              error={Boolean(errors.senha)}
+              value={values.senha}
+              helperText={errors.senha}
+              id="senha"
+              label="Senha"
+              type="password"
+              autoComplete="current-password"
+              autoFocus
+              onChange={handleChange}
+
+            >
+            </TextField>
+            
             <Button
               fullWidth
               variant="contained"
