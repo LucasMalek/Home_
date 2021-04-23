@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -7,7 +7,12 @@ import Avatar from  '@material-ui/core/Avatar';
 import LockOutlineIcon from '@material-ui/icons/LockOutlined';
 import TextField from '@material-ui/core/TextField';
 import Button  from '@material-ui/core/Button';
-import Link  from '@material-ui/core/Link';
+import * as Yup from 'yup';
+import { FormHelperText } from '@material-ui/core';
+import { Formik } from 'formik';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../../actions/accountActions';
 
 
 const useStyle = makeStyles((theme) => ({
@@ -46,7 +51,8 @@ const useStyle = makeStyles((theme) => ({
 function Signin(){
 
     const classes = useStyle();
-    
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     return (
 
         <Grid container className={classes.root}>
@@ -58,45 +64,88 @@ function Signin(){
                     <Typography variant='h6'>
                         Acesso Restrito para Funcionários
                     </Typography>
-                    <form className={classes.form} method="post">
-                        <TextField 
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="E-mail"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                            
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Senha"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
+                <Box className={classes.divcadastro} >
+                <Formik
+                    initialValues={{
 
-                        />
-                        <Link to="/Funcionario" style={{textDecoration: 'none'}}>
-                        <Button 
-                        variant="contained" 
-                        color="primary" 
-                        fullWidth 
-                        className={classes.button}>
-                        Entrar
-                        </Button>
-                        </Link>
-
-                    </form>
+                    email: '',
+                    senha: '',
+                    }}
+                    validationSchema={Yup.object().shape({
+                    email: Yup.string().max(50).min(20).required("Informe um email."),
+                        senha: Yup.string().max(10,'Máximo 10 caracteres na senha.')
+                        .min(5, 'Mínimo 5 caracteres na senha.').required('Favor informar uma senha.')
+                    })}
+                    onSubmit={async (
+                        values,
+                        { setErrors, setStatus, setSubmitting },
+                    ) => {
+                        try {
+                            await dispatch(signIn(values.email, values.senha))
+                            navigate("/home")
+                        } catch(error){
+                            const message =
+                            (error.response && error.response.data.message) ||
+                            'Alguma coisa aconteceu';
+                            setStatus({ success: false });
+                            setErrors({ submit: message });
+                            setSubmitting(false);
+                        }
+                    }}
+                >
+                {({ errors, handleChange, handleSubmit, isSubmitting, values }) => (
+                <form noValidate onSubmit = {handleSubmit} className={classes.form} >
+                    <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                error={Boolean(errors.email)}
+                value={values.email}
+                helperText={errors.email}
+                onChange={handleChange}
+                ></TextField>
+                <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                type="password"
+                fullWidth
+                id="senha"
+                label="Senha"
+                name="senha"
+                autoComplete="senha"
+                autoFocus
+                error={Boolean(errors.senha)}
+                value={values.senha}
+                helperText={errors.senha}
+                onChange={handleChange}
+                ></TextField>
+                <Button
+                        fullWidth
+                        variant="contained"
+                        // color="#E6E6FA"
+                        // className={classes.button}
+                        type="submit"
+                        disbled={isSubmitting}
+                    >
+                        CADASTRAR FUNCIONÁRIO
+                    </Button>
+                    {errors.submit && (
+                        <FormHelperText error>{errors.submit}</FormHelperText>
+                    )}
+                </form>
+                )}
+                </Formik>
                 </Box>
                 <Box className={classes.container}>
-                    <img src="./images/locar.jpg" className={classes.img}/>
+                    <img src="./images/locar.jpg" alt="" className={classes.img}/>
+                </Box>
                 </Box>
             </Grid>
         </Grid>
